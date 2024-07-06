@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "retrymanagement",
+    "scheme": "acme",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "slug": "retrymanagement",
+    "extra": {
+      "eas": {
+        "projectId": "3c6ade6d-f371-4695-a535-e7ac4a026cc2"
+      }
+    },
+    "android": {
+      "package": "com.rameenjaved.retrymanagement"
+    },
+    "ios": {
+      "bundleIdentifier": "com.rameenjaved.retrymanagement"
+    }
+  }
+}
