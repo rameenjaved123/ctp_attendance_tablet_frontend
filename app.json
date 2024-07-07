@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "retrymanagement",
+    "name": "ctpAttendqance",
     "scheme": "acme",
     "platforms": [
       "ios",
@@ -10,17 +10,17 @@
     "web": {
       "bundler": "metro"
     },
-    "slug": "retrymanagement",
+    "slug": "ctpAttendqance",
     "extra": {
       "eas": {
         "projectId": "3c6ade6d-f371-4695-a535-e7ac4a026cc2"
       }
     },
     "android": {
-      "package": "com.rameenjaved.retrymanagement"
+      "package": "com.rameenjaved.ctpAttendqance"
     },
     "ios": {
-      "bundleIdentifier": "com.rameenjaved.retrymanagement"
+      "bundleIdentifier": "com.rameenjaved.ctpAttendqance"
     }
   }
 }
