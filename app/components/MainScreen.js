@@ -9,22 +9,27 @@ const MainScreen = () => {
     const [sessions, setSessions] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
 
-    useEffect(() => {
-        const getSessions = async () => {
-            try {
-                const response = await fetchSessions();
-                setSessions(response);
-            } catch (error) {
-                console.error('Error fetching sessions:', error);
-            }
-        };
+    const getSessions = async () => {
+        try {
+            const response = await fetchSessions();
+            setSessions(response);
+        } catch (error) {
+            console.error('Error fetching sessions:', error);
+        }
+    };
 
-        getSessions();
+    useEffect(() => {
+        getSessions(); // Fetch sessions on mount
     }, []);
 
     const handleSessionSelect = (session) => {
         setSelectedSession(session);
         setModalVisible(false);
+    };
+
+    const handleSessionButtonPress = () => {
+        getSessions(); // Fetch sessions when the button is clicked
+        setModalVisible(true);
     };
 
     return (
@@ -37,7 +42,7 @@ const MainScreen = () => {
                 <Text style={styles.subtitle}>Please select a session to check in or check out.</Text>
                 <TouchableOpacity
                     style={styles.sessionButton}
-                    onPress={() => setModalVisible(true)}
+                    onPress={handleSessionButtonPress}
                 >
                     <Text style={styles.sessionButtonText}>
                         {selectedSession.name ? selectedSession.name : 'Select a session'}
@@ -45,7 +50,8 @@ const MainScreen = () => {
                 </TouchableOpacity>
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, !selectedSession && styles.buttonDisabled]}
+                        disabled={!selectedSession}
                         onPress={() =>
                             navigation.navigate('CheckIn', { sessionId: selectedSession.id })
                         }
@@ -53,7 +59,8 @@ const MainScreen = () => {
                         <Text style={styles.buttonText}>Check In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, !selectedSession && styles.buttonDisabled]}
+                        disabled={!selectedSession}
                         onPress={() =>
                             navigation.navigate('CheckOutScreen', { sessionId: selectedSession.id })
                         }
@@ -99,6 +106,9 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         flex: 1,
+    },
+    buttonDisabled: {
+        backgroundColor: 'grey',
     },
     bottomContainer: {
         flex: 1,

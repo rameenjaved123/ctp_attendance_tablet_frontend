@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, TextInput, Alert, TouchableOpacity } from "react-native";
 import { checkInForSession } from "../../apis/checkIn.api";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import {OFFICE_IDS} from "../../constants/constants";
+import {checkOutForSession} from "../../apis/checkOut.api";
 
 export default function CheckInScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -11,6 +12,7 @@ export default function CheckInScreen() {
   const [inputCode, setInputCode] = useState("");
   const route = useRoute();
   const { sessionId } = route.params;
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -19,18 +21,36 @@ export default function CheckInScreen() {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     const email = extractEmailFromQRCode(data);
     if (email) {
       const student_email = email;
-      console.log("sessionId", sessionId)
-      checkInForSession({ student_email, session_id: sessionId, campus_id: OFFICE_IDS.NOTTINGHAM });
+      const success = await checkInForSession({ student_email, session_id: sessionId, campus_id: OFFICE_IDS.NOTTINGHAM });
+      if (success) {
+        navigation.navigate('Welcome');
+      } else {
+        alert("Check-in failed");
+      }
     } else {
       alert("Invalid QR code data");
     }
   };
+
+  const handleCodeSubmit = async () => {
+    const success = await checkInForSession({
+      student_code: inputCode,
+      session_id: sessionId,
+      campus_id: OFFICE_IDS.NOTTINGHAM
+    })
+    if (success) {
+      navigation.navigate('Welcome');
+    } else {
+      alert("Check-out failed");
+    }
+  };
+
 
   const extractEmailFromQRCode = (data) => {
     try {
@@ -74,8 +94,11 @@ export default function CheckInScreen() {
               placeholder="Enter code manually"
               value={inputCode}
               onChangeText={setInputCode}
+              keyboardType="numeric"
+              maxLength={6}
+              returnKeyType="done"
           />
-          <Button title="Submit Code" onPress={() => checkInForSession({ student_code: inputCode, session_id: sessionId, campus_id: OFFICE_IDS.NOTTINGHAM })} />
+          <Button title="Submit Code" onPress={handleCodeSubmit} />
         </View>
       </View>
   );

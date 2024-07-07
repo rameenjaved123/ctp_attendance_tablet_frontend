@@ -3,7 +3,7 @@ import {OFFICE_IDS} from "../constants/constants";
 
 export const fetchSessions = async () => {
     const ip = '192.168.0.6';
-    const url = `http://${ip}:8085/sessions?campus_id=${OFFICE_IDS.NOTTINGHAM}`;
+    const url = `http://${ip}:8085/sessions?campus_id=${OFFICE_IDS.NOTTINGHAM}&session_date=${new Date().toISOString().split('T')[0]}`;
     try {
         console.log('Making API request to:', url);
         const response = await axios.get(url, {
@@ -13,7 +13,6 @@ export const fetchSessions = async () => {
             },
         });
 
-        console.log("Response received:", response);
         return response.data;
 
     } catch (error) {
