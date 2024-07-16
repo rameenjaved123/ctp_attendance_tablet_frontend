@@ -3,8 +3,7 @@ import { Text, View, StyleSheet, Button, TextInput, Alert, TouchableOpacity } fr
 import { checkInForSession } from "../../apis/checkIn.api";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import {OFFICE_IDS} from "../../constants/constants";
-import {checkOutForSession} from "../../apis/checkOut.api";
+import { OFFICE_IDS } from "../../constants/constants";
 
 export default function CheckInScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -51,7 +50,6 @@ export default function CheckInScreen() {
     }
   };
 
-
   const extractEmailFromQRCode = (data) => {
     try {
       const parsedData = JSON.parse(data);
@@ -82,6 +80,7 @@ export default function CheckInScreen() {
           <BarCodeScanner
               onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
               style={styles.camera}
+              type={BarCodeScanner.Constants.Type.front}
           />
           {scanned && (
               <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
@@ -117,21 +116,20 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: 16,
-    marginBottom: 40,
+    marginBottom: 30,
   },
   cameraContainer: {
-    width: '80%',
+    width: '30%',
     aspectRatio: 1,
     overflow: 'hidden',
     borderRadius: 10,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   camera: {
     flex: 1,
   },
   manualInputContainer: {
-    paddingHorizontal: 20,
-    width: '80%',
+    width: '30%',
   },
   input: {
     height: 40,
