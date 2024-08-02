@@ -2,10 +2,8 @@ import axios from 'axios';
 import {OFFICE_IDS} from "../constants/constants";
 
 export const fetchSessions = async () => {
-    const ip = '192.168.0.6';
-    const url = `http://${ip}:8085/sessions?campus_id=${OFFICE_IDS.NOTTINGHAM}&session_date=${new Date().toISOString().split('T')[0]}`;
+    const url = `https://ctpattendance.co.uk/v1/sessions/?campus_id=${OFFICE_IDS.NOTTINGHAM}&session_date=${new Date().toISOString().split('T')[0]}`;
     try {
-        console.log('Making API request to:', url);
         const response = await axios.get(url, {
             headers: {
                 'Content-Type': 'application/json',

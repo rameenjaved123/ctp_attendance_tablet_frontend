@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, Button, View, Text, TouchableOpacity, ImageBackground, Modal, FlatList } from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    Button,
+    View,
+    Text,
+    TouchableOpacity,
+    Modal,
+    FlatList,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // Importing icons
 import { fetchSessions } from '../../apis/sessions.api';
 
 const MainScreen = () => {
@@ -34,12 +44,11 @@ const MainScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.topContainer}>
-                <ImageBackground source={require('../../assets/images/img.png')} style={styles.backgroundImage} />
-            </View>
             <View style={styles.bottomContainer}>
                 <Text style={styles.title}>Welcome!</Text>
-                <Text style={styles.subtitle}>Please select a session to check in or check out.</Text>
+                <Text style={styles.subtitle}>
+                    Please select a session to check in or check out.
+                </Text>
                 <TouchableOpacity
                     style={styles.sessionButton}
                     onPress={handleSessionButtonPress}
@@ -48,25 +57,33 @@ const MainScreen = () => {
                         {selectedSession.name ? selectedSession.name : 'Select a session'}
                     </Text>
                 </TouchableOpacity>
-                <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                        style={[styles.button, !selectedSession && styles.buttonDisabled]}
-                        disabled={!selectedSession}
-                        onPress={() =>
-                            navigation.navigate('CheckIn', { sessionId: selectedSession.id })
-                        }
-                    >
-                        <Text style={styles.buttonText}>Check In</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.button, !selectedSession && styles.buttonDisabled]}
-                        disabled={!selectedSession}
-                        onPress={() =>
-                            navigation.navigate('CheckOutScreen', { sessionId: selectedSession.id })
-                        }
-                    >
-                        <Text style={styles.buttonText}>Check Out</Text>
-                    </TouchableOpacity>
+                <View style={styles.cardsContainer}>
+                    <View style={[styles.card, !selectedSession && styles.cardDisabled]}>
+                        <TouchableOpacity
+                            style={styles.cardButton}
+                            disabled={!selectedSession}
+                            onPress={() =>
+                                navigation.navigate('CheckIn', { sessionId: selectedSession.id })
+                            }
+                        >
+                            <Icon name="login" size={30} color="#ffffff" />
+                            <Text style={styles.cardButtonText}>Check In</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.card, !selectedSession && styles.cardDisabled]}>
+                        <TouchableOpacity
+                            style={styles.cardButton}
+                            disabled={!selectedSession}
+                            onPress={() =>
+                                navigation.navigate('CheckOutScreen', {
+                                    sessionId: selectedSession.id,
+                                })
+                            }
+                        >
+                            <Icon name="logout" size={30} color="#ffffff" />
+                            <Text style={styles.cardButtonText}>Check Out</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -104,22 +121,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f8f8f8',
     },
-    topContainer: {
-        flex: 1,
-    },
-    buttonDisabled: {
-        backgroundColor: 'grey',
-    },
     bottomContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     title: {
         fontSize: 32,
@@ -132,13 +137,13 @@ const styles = StyleSheet.create({
         color: '#4A4A4A',
         textAlign: 'center',
         width: '80%',
-        marginBottom: 20,
+        marginBottom: 150,
     },
     sessionButton: {
-        width: '80%',
+        width: '50%',
         padding: 15,
         borderRadius: 10,
-        backgroundColor: '#9db9c3',
+        backgroundColor: '#004990',
         alignItems: 'center',
         marginBottom: 20,
     },
@@ -147,28 +152,37 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    buttonsContainer: {
+    cardsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '80%',
+        marginTop: 20,
     },
-    button: {
-        backgroundColor: '#115b81',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
+    card: {
         flex: 1,
         margin: 5,
+        padding: 20,
+        borderRadius: 10,
+        backgroundColor: '#1C5E9C',
+        alignItems: 'center',
+        justifyContent: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
         elevation: 2,
     },
-    buttonText: {
+    cardDisabled: {
+        backgroundColor: 'grey',
+    },
+    cardButton: {
+        alignItems: 'center',
+    },
+    cardButtonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
+        marginTop: 10,
     },
     modalContainer: {
         flex: 1,
@@ -184,7 +198,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalTitle: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
     },

@@ -1,7 +1,9 @@
 {
   "expo": {
-    "name": "ctpAttendqance",
+    "name": "CTP",
     "scheme": "acme",
+    "slug": "ctp",
+    "icon": "./assets/images/ctplogo.png",
     "platforms": [
       "ios",
       "android",
@@ -10,17 +12,17 @@
     "web": {
       "bundler": "metro"
     },
-    "slug": "ctpAttendqance",
     "extra": {
       "eas": {
-        "projectId": "3c6ade6d-f371-4695-a535-e7ac4a026cc2"
+        "projectId": "cca7bf2a-de90-4601-941b-54388ab60330"
       }
     },
     "android": {
-      "package": "com.rameenjaved.ctpAttendqance"
+      "package": "com.rameenjaved.CTP"
     },
     "ios": {
-      "bundleIdentifier": "com.rameenjaved.ctpAttendqance"
-    }
+      "bundleIdentifier": "com.rameenjaved.CTP"
+    },
+    "owner": "rameenjaved"
   }
 }

@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 export const checkInForSession = async (data) => {
-    const ip = '192.168.0.6';
-    const url = `http://${ip}:8085/attendance/checkin`;
+    const url = `https://ctpattendance.co.uk/v1/attendance/checkin`;
     try {
         const response = await axios.post(url, data, {
             headers: {
